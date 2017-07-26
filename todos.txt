@@ -1,0 +1,7 @@
+ToDos:
+-read in information DONE
+-pie chart DONE
+-money over time
+-histogram
+-filter on dates
+-other graphs
