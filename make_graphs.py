@@ -1,5 +1,6 @@
 import pandas
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 # data.columns = ["date", "description", "description", "amount",
                 # "transaction_type","category","account_name","labels","notes"]
@@ -24,4 +25,25 @@ def pie_chart(data,category):
     patches,texts = plt.pie(sizes, startangle=140)
     plt.legend(patches, labels, loc="best")
     plt.axis('equal')
+    plt.show()
+
+def spending(data):
+    days = {}
+    for index,row in data.iterrows():
+        start = datetime.strptime("06/20/2017", "%m/%d/%Y")
+        if row.date > start:
+            if row.date not in days:
+                days[row.date] = 0.0
+            days[row.date] += row.amount
+    points = []
+    for d in days:
+        points.append([d,days[d]])
+    points.sort()
+    x = []
+    y = []
+    for p in points:
+        x.append(p[0])
+        y.append(p[1])
+
+    plt.plot(x, y)
     plt.show()

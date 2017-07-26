@@ -43,4 +43,5 @@ if __name__ == "__main__":
     transactions = read_data()
     print("Have data!")
     purchases,credits = separate(transactions)
+    spending(purchases)
     # pie_chart(purchases,"category")
