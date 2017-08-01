@@ -28,7 +28,7 @@ def read_data():
 def get_date(s):
     return datetime.strptime(s, "%m/%d/%Y")
 
-def loop(data):
+def total(data):
     total = 0
     for index,row in data.iterrows():
         if row["date"] > get_date("06/09/2017"):
@@ -41,6 +41,16 @@ def loop(data):
     total = total / 100
     print("Total spent on uber:",total)
 
+def counts(data):
+    categories = {}
+    for index,row in data.iterrows():
+        if row["description"] not in categories:
+            categories[row["description"]] = 0
+        categories[row["description"]] += 1
+    for c in categories:
+        if categories[c] > 1:
+            print(c,categories[c])
+
 
 # separate credit from debit
 def separate(data):
@@ -52,4 +62,5 @@ def separate(data):
 
 if __name__ == "__main__":
     transactions = read_data()
-    loop(transactions)
+    total(transactions)
+    counts(transactions)
