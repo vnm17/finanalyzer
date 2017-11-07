@@ -58,8 +58,6 @@ def separate(data):
     credits = data[data.transaction_type == "credit"]
     return purchases,credits
 
-
-
 if __name__ == "__main__":
     transactions = read_data()
     total(transactions)
