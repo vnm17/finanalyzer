@@ -2,6 +2,7 @@ ToDos:
 -read in information DONE
 -pie chart DONE
 -money over time
+- pull specific accounts
 -histogram
 -filter on dates
 -other graphs

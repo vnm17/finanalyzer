@@ -31,7 +31,7 @@ def get_date(s):
 def total(data):
     total = 0
     for index,row in data.iterrows():
-        if row["date"] > get_date("06/09/2017"):
+        if row["date"] > get_date("09/01/2017"):
             # print(row["description"])
             if row["description"] == "Uber.com":
                 if row["transaction_type"] == "debit":
@@ -44,13 +44,25 @@ def total(data):
 def counts(data):
     categories = {}
     for index,row in data.iterrows():
+        if row["date"] < get_date("09/01/2017"):
+            continue
         if row["description"] not in categories:
             categories[row["description"]] = 0
         categories[row["description"]] += 1
     for c in categories:
-        if categories[c] > 1:
-            print(c,categories[c])
+        # if categories[c] > 1:
+        print(c,categories[c])
 
+def category_counts(data):
+    categories = {}
+    for index, row in data.iterrows():
+        if row["date"] < get_date("09/01/2017"):
+            continue
+        if row["category"] not in categories:
+            categories[row["category"]] = 0
+        categories[row["category"]] += 1
+    for c in categories:
+        print(c, categories[c])
 
 # separate credit from debit
 def separate(data):
@@ -58,7 +70,15 @@ def separate(data):
     credits = data[data.transaction_type == "credit"]
     return purchases,credits
 
+def account(data, account_name):
+    transactions = data[data.account_name == account_name]
+    print(len(transactions),"transactions")
+    return transactions
+
+
 if __name__ == "__main__":
     transactions = read_data()
     total(transactions)
-    counts(transactions)
+    account(transactions, "Chase Preferred")
+    # counts(transactions)
+    # category_counts(transactions)
