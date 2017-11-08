@@ -6,8 +6,6 @@ from make_graphs import *
 from datetime import datetime
 from math import floor
 
-
-
 # pickle documentation
 # saving:
 #   f = open(fname,"wb")
@@ -15,6 +13,27 @@ from math import floor
 # loading:
 #   f = open(fname,"rb")
 #   obj = pickle.load(f)
+
+#############################################################################
+## FILTER BY DATE
+
+def before(data, end):
+    # assumed that date is of form "%m/%d/%Y"
+    end_date = get_date(end)
+    return data[data.date <= end_date]
+
+def after(data, start):
+    # assumed that date is of form "%m/%d/%Y"
+    start_date = get_date(start)
+    return data[data.date >= start_date]
+
+############################################################################
+## FILTER BY ACCOUNTS
+
+def pull_account(data, account_names):
+    return data[data.account_name in account_names]
+
+############################################################################
 
 def read_data():
     data = pandas.read_csv("data/transactions.csv")
@@ -75,10 +94,8 @@ def account(data, account_name):
     print(len(transactions),"transactions")
     return transactions
 
-
 if __name__ == "__main__":
     transactions = read_data()
     total(transactions)
-    account(transactions, "Chase Preferred")
     # counts(transactions)
     # category_counts(transactions)
