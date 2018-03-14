@@ -39,7 +39,7 @@ def read_data():
     data = pandas.read_csv("data/transactions.csv")
     data.columns = ["date", "description", "original_description", "amount",
                     "transaction_type","category","account_name","labels","notes"]
-    data.date = data.date.apply(lambda d: datetime.strptime(d, "%m/%d/%Y")) # 7/26/2017
+    data.date = data.date.apply(lambda d: datetime.strptime(d, "%m/%d/%Y"))
     data.amount = data.amount.apply(lambda a: floor(a * 100))
     # print(data.columns)
     return data
@@ -47,27 +47,38 @@ def read_data():
 def get_date(s):
     return datetime.strptime(s, "%m/%d/%Y")
 
+############################################################################
+## TESTING
+
 def total(data):
-    total = 0
+    uber_total = 0
+    lyft_total = 0
     for index,row in data.iterrows():
         if row["date"] > get_date("09/01/2017"):
             # print(row["description"])
             if row["description"] == "Uber.com":
                 if row["transaction_type"] == "debit":
-                    total += row["amount"]
+                    uber_total += row["amount"]
                 else:
-                    total -= row["amount"]
-    total = total / 100
-    print("Total spent on uber:",total)
+                    uber_total -= row["amount"]
+            elif row["description"] == "Lyft":
+                if row["transaction_type"] == "debit":
+                    lyft_total += row["amount"]
+                else:
+                    lyft_total -= row["amount"]
+    uber_total = uber_total / 100
+    print("Total spent on uber:",uber_total)
+    lyft_total = lyft_total / 100
+    print("Total spent on lyft:",lyft_total)
 
 def counts(data):
     categories = {}
     for index,row in data.iterrows():
-        if row["date"] < get_date("09/01/2017"):
-            continue
-        if row["description"] not in categories:
-            categories[row["description"]] = 0
-        categories[row["description"]] += 1
+        # if row["date"] < get_date("09/01/2017"):
+            # continue
+        if row["account_name"] not in categories:
+            categories[row["account_name"]] = 0
+        categories[row["account_name"]] += 1
     for c in categories:
         # if categories[c] > 1:
         print(c,categories[c])
@@ -97,5 +108,6 @@ def account(data, account_name):
 if __name__ == "__main__":
     transactions = read_data()
     total(transactions)
+    counts(transactions)
     # counts(transactions)
     # category_counts(transactions)
