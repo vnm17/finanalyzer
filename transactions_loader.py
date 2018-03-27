@@ -47,10 +47,11 @@ def read_data():
 def get_date(s):
     return datetime.strptime(s, "%m/%d/%Y")
 
+
 ############################################################################
 ## TESTING
 
-def total(data):
+def total_car(data):
     uber_total = 0
     lyft_total = 0
     for index,row in data.iterrows():
@@ -100,14 +101,14 @@ def separate(data):
     credits = data[data.transaction_type == "credit"]
     return purchases,credits
 
-def account(data, account_name):
+def account_counts(data, account_name):
     transactions = data[data.account_name == account_name]
     print(len(transactions),"transactions")
     return transactions
 
 if __name__ == "__main__":
     transactions = read_data()
-    total(transactions)
+    total_car(transactions)
     counts(transactions)
     # counts(transactions)
     # category_counts(transactions)
