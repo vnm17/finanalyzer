@@ -75,6 +75,8 @@ def printTransactions(data):
         print(key, formatAmount(groupings[key]))
 
 
+# still needs:
+# credit versus debit
             
 
 
