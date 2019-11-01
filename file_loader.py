@@ -42,17 +42,40 @@ def formatAmount(a):
 ## TESTING
 
 
-
 def printTransactions(data):
     groupings = {}
     groupingNames = []
-    action = -1
     for _, row in data.iterrows():
-        print(row.description, row.date, formatAmount(row.amount))
+        os.system('clear')
+        # print groupNames, if they exist
         if len(groupingNames) > 0:
             print('You have', len(groupingNames), 'groupings:')
             for i in range(len(groupingNames)):
                 print(i, groupingNames[i])
+        
+        print('Transaction:')
+        print(row.description, row.date, formatAmount(row.amount))
+
+        # decide which grouping to use
+        if len(groupingNames) > 0:
+            shouldMakeGrouping = input('Would you like to make a new grouping? (y/N) ')
+            if shouldMakeGrouping != 'y':
+                chosenGrouping = int(input('Select grouping to use: '))
+                name = groupingNames[chosenGrouping]
+                groupings[name] = groupings[name] + row.amount
+                continue
+
+
+        
+        newGrouping = input('Name a new grouping: ')
+        groupingNames.append(newGrouping)
+        groupings[newGrouping] = row.amount
+
+    for key in groupings:
+        print(key, formatAmount(groupings[key]))
+
+
+            
 
 
 if __name__ == "__main__":
